@@ -1,0 +1,88 @@
+<!DOCTYPE html> {% load bootstrap %} {% load staticfiles %}
+ <html>
+        <head>
+            <title>SuperDelivery</title>
+            <script src="{% static "jquery-2.2.4.min.js" %}"></script>
+            <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+            <link href="{% static "css/bootstrap-theme.min.css" %}" rel="stylesheet">
+
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+        </head>
+        <body>
+            <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">SuperDelivery</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{% url 'order_list' %}">Home</a></li>
+                    <li><a href="{% url 'new' %}">Make new order</a></li>
+                </ul>
+                <form class="navbar-form navbar-left" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="search" placeholder="Search">
+                    <div class="input-group-btn">
+                        <button class="btn btn-default" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                    </div>
+                    <label class="radio-inline">
+                            <input type="radio" name="optradio" value="include" checked="">Include word
+                        </label>
+                    <label class="radio-inline">
+                            <input type="radio" name="optradio" value="exclude" > by phrase
+                        </label>
+                    <label class="radio-inline">
+                            <input type="radio" name="optradio" value="cost" > by cost
+                        </label>
+                    <label class="radio-inline">
+                            <input type="radio" name="optradio" value="company" > by company
+                        </label>
+
+                </form>
+            </div>
+            </nav>
+
+            {% block title %}
+                <div class="page-header"><h1 style="text-align: center;">Orders</h1></div>
+            {% endblock %}
+
+            {% if orders %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                    <th>ID</th>
+                    <th>Product</th>
+                    <th>Client</th>
+                    <th>Date&Time</th>
+                    <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr class='clickable-row' data-href="{% url 'edit' order.id %}">
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.prod_name }}</td>
+                            <td>{{ order.client_name }}</td>
+                            <td>{{ order.data_time }}</td>
+                            <td>{{ order.amount }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+                <p>Orders list is empty</p>
+            {% endif %}
+
+
+
+            <script>
+            jQuery(document).ready(function($) {
+                $(".clickable-row").click(function() {
+                    window.document.location = $(this).data("href");
+                });
+            });
+            </script>
+        </body>
+</html>

@@ -1,0 +1,43 @@
+{% load bootstrap %} {% load staticfiles %}
+<!DOCTYPE html>
+ <html>
+        <head>
+            <title>SuperDelivery</title>
+            <script src="{% static "jquery-2.2.4.min.js" %}"></script>
+            <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+            <link href="{% static "css/bootstrap-theme.min.css" %}" rel="stylesheet">
+        </head>
+<body>
+   <nav class="navbar navbar-default">
+       <div class="container-fluid">
+           <div class="navbar-header">
+               <a class="navbar-brand" href="#">SuperDelivery</a>
+           </div>
+           <ul class="nav navbar-nav">
+               <li><a href="{% url 'order_list' %}">Home</a></li>
+               <li><a href="{% url 'new' %}">Make new order</a></li>
+           </ul>
+       </div>
+   </nav>
+
+   {% block title %}
+       <div class="page-header"><h1 style="text-align: center;">Edit Orders</h1></div>
+   {% endblock %}
+
+
+   <form role="form" action = {{ request.get_full_path }} method="post">
+       {% csrf_token %}
+       <div class="form-group  col-sm-offset-1" style="width:864px;">
+       {{ order_form|bootstrap }}
+       </div>
+       <div class="form-group">
+           <div class="col-sm-10 col-sm-offset-1">
+               <button type="submit" class="btn btn-primary" name="save_btn">Submit</button>
+               <button type="submit" class="btn btn-primary" name="delete_btn">Delete</button>
+           </div>
+       </div>
+   </form>
+
+
+</body>
+</html>
